@@ -17,7 +17,7 @@ public class Email {
     public String getPassword() {
         return password;
     }
-
+      
     public void changePassword(String oldPassword, String newPassword){
         //Change password only if the oldPassword is equal to current password and the new password meets all of the following:
         // 1. It contains at least 8 characters
