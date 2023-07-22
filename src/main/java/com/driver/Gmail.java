@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Gmail extends Email {
-  //private int inboxCapacity;
     private List<Mail> inbox;
     private List<Mail> trash;
     int inboxCapacity; //maximum number of mails inbox can store
