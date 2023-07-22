@@ -17,7 +17,7 @@ super(emailId);
         this.trash = new ArrayList<>();
     }
 
-    public void receiveMail(Date date, String sender, String message){
+    public void receiveMail(Date date, String senderId, String message){
         // If the inbox is full, move the oldest mail in the inbox to trash and add the new mail to inbox.
         // It is guaranteed that:
         // 1. Each mail in the inbox is distinct.
@@ -99,12 +99,12 @@ trash.clear();
     }
     private class Mail {
         private Date date;
-        private String sender;
+        private String senderId;
         private String message;
 
-        public Mail(Date date, String sender, String message) {
+        public Mail(Date date, String senderId, String message) {
             this.date = date;
-            this.sender = sender;
+            this.senderId = senderId;
             this.message = message;
         }
 
@@ -113,7 +113,7 @@ trash.clear();
         }
 
         public String getSender() {
-            return sender;
+            return senderId;
         }
 
         public String getMessage() {
