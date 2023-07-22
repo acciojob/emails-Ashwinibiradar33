@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Gmail extends Email {
-    public List<Mail> inbox;
-    public List<Mail> trash;
+    List<Mail> inbox;
+     List<Mail> trash;
     int inboxCapacity; //maximum number of mails inbox can store
     //Inbox: Stores mails. Each mail has date (Date), sender (String), message (String). It is guaranteed that message is distinct for all mails.
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
@@ -97,9 +97,9 @@ trash.clear();
          return inboxCapacity;
     }
     public class Mail {
-        public Date date;
-        public String senderId;
-        public String message;
+Date date;
+ String senderId;
+ String message;
 
         public Mail(Date date, String senderId, String message) {
             this.date = date;
