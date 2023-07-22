@@ -41,7 +41,7 @@ public class Workspace extends Gmail{
 
         calendar.sort((m1, m2) -> m1.endTime.compareTo(m2.endTime));
 
-        int noofmeetings = 0;
+        int noofmeetings = 1;
         LocalTime currentTime = LocalTime.MIN;
         for(Meeting meet:calendar)
         {
