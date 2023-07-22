@@ -96,7 +96,7 @@ trash.clear();
         // Return the maximum number of mails that can be stored in the inbox
          return inboxCapacity;
     }
-    public class Mail {
+    class Mail {
 Date date;
  String senderId;
  String message;
