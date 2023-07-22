@@ -5,52 +5,59 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.*;
 
-public class Workspace extends Gmail{
-    private boolean isTimeOverlap(Meeting meeting1, Meeting meeting2) {
-        // Check if the start time or end time of the meetings overlap.
-        return (meeting1.startTime.isBefore(meeting2.endTime) && meeting1.endTime.isAfter(meeting2.startTime));
-    }
-
-    private ArrayList<Meeting> calendar; // Stores all the meetings
+class Workspace extends Gmail {
+    private static final int MAX_INBOX_CAPACITY = Integer.MAX_VALUE;
+    private List<Meeting> calendar;
 
     public Workspace(String emailId) {
-        // The inboxCapacity is equal to the maximum value an integer can store.
-        super(emailId,Integer.MAX_VALUE);
-        calendar = new ArrayList<>();
-
+        super(emailId, MAX_INBOX_CAPACITY);
+        this.calendar = new ArrayList<>();
     }
 
-    public void addMeeting(Meeting meeting){
-        //add the meeting to calendar
-        for (Meeting existingMeeting : calendar) {
-            if (isTimeOverlap(existingMeeting, meeting)) {
-                throw new IllegalArgumentException("The new meeting overlaps with an existing meeting.");
-            }
-        }
-
+    public void addMeeting(Meeting meeting) {
         calendar.add(meeting);
-
     }
 
-    public int findMaxMeetings(){
-        // find the maximum number of meetings you can attend
-        // 1. At a particular time, you can be present in at most one meeting
-        // 2. If you want to attend a meeting, you must join it at its start time and leave at end time.
-        // Example: If a meeting ends at 10:00 am, you cannot attend another meeting starting at 10:00 am
+    public int findMaxMeetings() {
+        if (calendar.isEmpty()) {
+            return 0;
+        }
 
-        calendar.sort((m1, m2) -> m1.endTime.compareTo(m2.endTime));
+        // Sort meetings by their end time
+        Collections.sort(calendar, Comparator.comparing(Meeting::getEndTime));
 
-        int noofmeetings = 1;
-        LocalTime currentTime = LocalTime.MIN;
-        for(Meeting meet:calendar)
-        {
-            if(meet.startTime.compareTo(currentTime)>=0)
-            {
-                noofmeetings++;
-                currentTime = meet.endTime;
+        int maxMeetings = 1;
+        int currentMeetings = 1;
+        LocalTime prevEndTime = calendar.get(0).getEndTime();
+
+        for (int i = 1; i < calendar.size(); i++) {
+            Meeting currentMeeting = calendar.get(i);
+            if (currentMeeting.getStartTime().isAfter(prevEndTime)) {
+                currentMeetings++;
+                prevEndTime = currentMeeting.getEndTime();
             }
         }
-        return noofmeetings;
+
+        return maxMeetings;
+    }
+
+    private class Meeting {
+        private LocalTime startTime;
+        private LocalTime endTime;
+
+        public Meeting(LocalTime startTime, LocalTime endTime) {
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+
+        public LocalTime getStartTime() {
+            return startTime;
+        }
+
+        public LocalTime getEndTime() {
+            return endTime;
+        }
     }
 }
